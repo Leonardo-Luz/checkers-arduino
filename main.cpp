@@ -60,50 +60,41 @@
 #define LED_07
 #define LED_27
 #define LED_47
-#define LED_67
+#define LED_67 43
 
-typedef struct{
-	x: int,
-	y: int
-}CartesianPlane;
-
-typedef struct{
-	pos: CartesianPlane,
-	type: char[20], // Tile | Move | Piece | King | None
-	team: char[10], // Black | White | None
-	ledPort: int
-}Tile;
+struct CartesianPlane{
+	int x;
+	int y;
+};
 
 CartesianPlane pos = {
-	x: -1,
-	y: -1
-}
+	.x = -1,
+	.y = -1
+};
+
 CartesianPlane newPos = {
-	x: -1,
-	y: -1
-}
+	.x = -1,
+	.y = -1
+};
+
+struct Tile{
+	CartesianPlane pos;
+	char type[20]; // Tile | Move | Piece | King | None
+	char team[20]; // Black | White | None
+	int ledPort;
+};
 
 // newPos name repeats inside functions
-
 
 Tile board[8][8];
 bool moving = false;
 char playing[20] = "White"; // Black | White
 
-bool canAttack( Tile piece );
-bool canMove( Tile piece );
-bool isPiece( CartesianPlane pos );
-bool isPlaying( CartesianPlane pos );
 
-void moveHandler( CartesianPlane oldPos, CartesianPlane newPos );
-void moveStart( CartesianPlane pos );
-void boardUpdate();
-
-int buttonXHandler();
-int buttonYHandler();
 
 void start(){
-	
+	boardStart();
+
 }
 
 void loop(){
@@ -166,7 +157,7 @@ void boardUpdate(){
 	for(int j = 0; j < 8; j++){
 		Tile aux = board[i][j];
 		
-		if(aux.type == "none")
+		if(aux.type == "None")
 			continue;
 
 		if(aux.ledPort >= 0){
@@ -235,15 +226,15 @@ int buttonYHandler(){
 // change functions to another file ? 
 
 void setUselessTile( CartesianPlane pos ){
-	board[pos.x][pos.y].team = "None";
-	board[pos.x][pos.y].type = "None";
+	strcpy(board[pos.x][pos.y].team, "None");
+	strcpy(board[pos.x][pos.y].type, "None");
 	board[pos.x][pos.y].pos = pos;
 	board[pos.x][pos.y].ledPort = -1;
 }
 
 void setPieceTile( CartesianPlane pos ){
-	board[pos.x][pos.y].team = pos.y > 3 ? "Black" : "White";
-	board[pos.x][pos.y].type = "Piece";
+	strcpy(board[pos.x][pos.y].team, pos.y > 3 ? "Black" : "White");
+	strcpy(board[pos.x][pos.y].type, "Piece");
 	board[pos.x][pos.y].pos = pos;
 	
 	// Black Pieces
@@ -328,8 +319,8 @@ void setPieceTile( CartesianPlane pos ){
 void setUselessRow( int y ){
 	for(int i = 0; i < 8; i++){
 		CartesianPlane target = {
-			x: i,
-			y: 0
+			.x = i,
+			.y = y
 		};
 		
 		setUselessTile( target ); 
@@ -340,22 +331,22 @@ void boardStart(){
 	for( int i = 0; i < 8; i++ ){
 		if(i != 3 && i != 4)
 			for( int j = 0; j < 8; j++ ){
-				CartesianPlane pos = {
-					x: i,
-					y: j
+				CartesianPlane aux = {
+					.x = i,
+					.y = j
 				};
 				
 				if(i % 2 == 0){
 					if(j % 2 == 0)
-						setUselessTile( pos );
+						setUselessTile( aux );
 					else
-						setPieceTile( pos );
+						setPieceTile( aux );
 				}
 				else{
 					if(j % 2 == 0)
-						setPieceTile( pos );
+						setPieceTile( aux );
 					else
-						setUselessTile( pos );
+						setUselessTile( aux );
 				}
 			}
 		else
@@ -367,7 +358,7 @@ void resetMove(){
 	for(int i = 0; i < 8; i++)
 		for(int j = 0; j < 8; j++)
 			if(board[i][j].type == "Move")
-				board[i][j].type = "Tile";
+				strcpy(board[i][j].type, "Tile");
 }
 
 void setMoveTile( CartesianPlane pos ){
@@ -387,27 +378,27 @@ void attackStart( CartesianPlane pos ){
                 targetPos.y = 1;
                 break;
             case 1:
-                targetPos.x: -1,
-                targetPos.y: 1
+                targetPos.x = -1;
+                targetPos.y = 1;
                 break;
             case 2:
-                targetPos.x: 1,
-                targetPos.y: -1
+                targetPos.x = 1;
+                targetPos.y = -1;
                 break;
             case 3:
-                targetPos.x: -1,
-                targetPos.y: -1
+                targetPos.x = -1;
+                targetPos.y = -1;
                 break;
         }
         
 		CartesianPlane target = {
-			x: pos.x + targetPos.x,
-			y: pos.y + targetPos.y
+			.x = pos.x + targetPos.x,
+			.y = pos.y + targetPos.y
 		};
 		
 		CartesianPlane attack = {
-			x: pos.x + targetPos.x * 2,
-			y: pos.y + targetPos.y * 2
+			.x = pos.x + targetPos.x * 2,
+			.y = pos.y + targetPos.y * 2
 		};
 
 		if( // Attack Move
@@ -445,27 +436,27 @@ void moveStart( CartesianPlane pos ){
                 targetPos.y = 1;
                 break;
             case 1:
-                targetPos.x: -1,
-                targetPos.y: 1
+                targetPos.x = -1;
+                targetPos.y = 1;
                 break;
             case 2:
-                targetPos.x: 1,
-                targetPos.y: -1
+                targetPos.x = 1;
+                targetPos.y = -1;
                 break;
             case 3:
-                targetPos.x: -1,
-                targetPos.y: -1
+                targetPos.x = -1;
+                targetPos.y = -1;
                 break;
         }
         
 		CartesianPlane target = {
-			x: pos.x + targetPos.x,
-			y: pos.y + targetPos.y
+			.x = pos.x + targetPos.x,
+			.y = pos.y + targetPos.y
 		};
 		
 		CartesianPlane attack = {
-			x: pos.x + targetPos.x * 2,
-			y: pos.y + targetPos.y * 2
+			.x = pos.x + targetPos.x * 2,
+			.y = pos.y + targetPos.y * 2
 		};
         
 		if( // Normal Move
@@ -507,33 +498,38 @@ void moveStart( CartesianPlane pos ){
 	}
 } 
 
-void moveHandler( CartesianPlane oldPos, CartesianPlane newPos ){
+void moveHandler( CartesianPlane oldPos, CartesianPlane movedPos ){
 	Tile oldTile = board[oldPos.x][oldPos.y];
-	Tile newTile = board[newPos.x][newPos.y];	
+	Tile newTile = board[movedPos.x][movedPos.y];	
 	
-	board[newPos.x][newPos.y].team == oldTile.team;
-	board[newPos.x][newPos.y].type == oldTile.type;	
+	board[movedPos.x][movedPos.y].team == oldTile.team;
+	board[movedPos.x][movedPos.y].type == oldTile.type;	
 	
-	board[pos.x][pos.y].type = "Tile";
+	strcpy(board[pos.x][pos.y].type, "Tile");
 
-	if(Math.module(pos.x - newPos.x) > 1){
-		board[newPos.x + (pos.x - newPos.x) / 2][newPos.y + (pos.y - newPos.y) / 2].type = "Tile";
+	if(abs(pos.x - movedPos.x) > 1){
+		strcpy(board[movedPos.x + (pos.x - movedPos.x) / 2][movedPos.y + (pos.y - movedPos.y) / 2].type, "Tile");
 		
-		pos.x = newPos.x;
-		pos.y = newPos.y;
+		pos.x = movedPos.x;
+		pos.y = movedPos.y;
 		
 		moving = true;
 		
-		attackStart();
+		attackStart( pos );
 	}
 	else{
 		pos.x = -1;
 		pos.y = -1;
 
-		newPos.x = -1;
-		newPos.y = -1;
+		movedPos.x = -1;
+		movedPos.y = -1;
 
-		team = team == "Black" ? "White" : "Black";
+		if(playing == "Black")
+			strcpy(playing, "White");
+		else 
+			strcpy(playing, "Black");
+
+		strcpy(playing, playing == "Black" ? "White" : "Black");
 	}
 }
 
