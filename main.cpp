@@ -60,22 +60,15 @@
 #define LED_07
 #define LED_27
 #define LED_47
-#define LED_67 43
+#define LED_67 "trocar pela porta correta da posição [6][7]"
 
 struct CartesianPlane{
-	int x;
-	int y;
+	int x; // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+	int y; // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 };
 
-CartesianPlane pos = {
-	.x = -1,
-	.y = -1
-};
-
-CartesianPlane newPos = {
-	.x = -1,
-	.y = -1
-};
+CartesianPlane pos;
+CartesianPlane newPos;
 
 struct Tile{
 	CartesianPlane pos;
@@ -95,6 +88,11 @@ char playing[20] = "White"; // Black | White
 void start(){
 	boardStart();
 
+	pos.x = -1;
+	pos.y = -1;
+
+	newPos.x = -1;
+	newPos.y = -1;
 }
 
 void loop(){
@@ -318,10 +316,10 @@ void setPieceTile( CartesianPlane pos ){
 
 void setUselessRow( int y ){
 	for(int i = 0; i < 8; i++){
-		CartesianPlane target = {
-			.x = i,
-			.y = y
-		};
+		CartesianPlane target;
+
+		target.x = i;
+		target.y = y;
 		
 		setUselessTile( target ); 
 	}
@@ -331,10 +329,10 @@ void boardStart(){
 	for( int i = 0; i < 8; i++ ){
 		if(i != 3 && i != 4)
 			for( int j = 0; j < 8; j++ ){
-				CartesianPlane aux = {
-					.x = i,
-					.y = j
-				};
+				CartesianPlane aux;
+
+				aux.x = i;
+				aux.y = j;
 				
 				if(i % 2 == 0){
 					if(j % 2 == 0)
@@ -362,7 +360,7 @@ void resetMove(){
 }
 
 void setMoveTile( CartesianPlane pos ){
-	board[pos.x][pos.y].type == "Move"
+	strcpy(board[pos.x][pos.y].type, "Move");
 }
 
 void attackStart( CartesianPlane pos ){
@@ -391,15 +389,14 @@ void attackStart( CartesianPlane pos ){
                 break;
         }
         
-		CartesianPlane target = {
-			.x = pos.x + targetPos.x,
-			.y = pos.y + targetPos.y
-		};
+		CartesianPlane target;
+		target.x = pos.x + targetPos.x;
+		target.y = pos.y + targetPos.y;
+
 		
-		CartesianPlane attack = {
-			.x = pos.x + targetPos.x * 2,
-			.y = pos.y + targetPos.y * 2
-		};
+		CartesianPlane attack;
+		attack.x = pos.x + targetPos.x * 2;
+		attack.y = pos.y + targetPos.y * 2;
 
 		if( // Attack Move
 			!( attack.x > 7 || attack.y > 7 ) &&
@@ -449,15 +446,15 @@ void moveStart( CartesianPlane pos ){
                 break;
         }
         
-		CartesianPlane target = {
-			.x = pos.x + targetPos.x,
-			.y = pos.y + targetPos.y
-		};
+		CartesianPlane target;
+		target.x = pos.x + targetPos.x;
+		target.y = pos.y + targetPos.y;
+
 		
-		CartesianPlane attack = {
-			.x = pos.x + targetPos.x * 2,
-			.y = pos.y + targetPos.y * 2
-		};
+		CartesianPlane attack;
+		attack.x = pos.x + targetPos.x * 2;
+		attack.y = pos.y + targetPos.y * 2;
+
         
 		if( // Normal Move
 			!( target.x > 7 || target.y > 7 ) &&
