@@ -19,12 +19,12 @@ Leonardo Luz, Diego & Bruno <br>
 
 ---
 ### Descrição
-> &ensp;O projeto visa desenvolver um tabuleiro de damas que não utilize peças, tendo como principal agente para este fator o arduino. Serão utilizados 32 leds rgb e estes representarão coisas diferentes de acordo com a sua situação sendo: <br/>
+> O projeto visa desenvolver um tabuleiro de damas que não utilize peças, tendo como principal agente para este fator o arduino. Serão utilizados 32 leds rgb e estes representarão coisas diferentes de acordo com a sua situação sendo: <br/>
 > &emsp;Desligado uma posição desocupada, <br/>
 > &emsp;Amarelo uma peça do time 'braco', <br/>
 > &emsp;Vermelho uma peça do time 'preto' e <br/>
 > &emsp;Verde uma possivel movimentação. <br/>
-> &ensp;Também serão utilizados 16 botões ao redor do tabuleiro reperesentando um plano cartesiano, tendo 8 botões indo de 1 a 8 e o restante indo de 'A' a 'H'. Os botões serão utilizados para movimentar as peçãs, com os númerados representando o vetor 'X' e os alfabéticos representando o vetor 'Y'.
+> Também serão utilizados 16 botões ao redor do tabuleiro reperesentando um plano cartesiano, tendo 8 botões indo de 1 a 8 e o restante indo de 'A' a 'H'. Os botões serão utilizados para movimentar as peçãs, com os númerados representando o vetor 'X' e os alfabéticos representando o vetor 'Y'.
 
 ---
 ### Tecnologias
