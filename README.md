@@ -53,17 +53,18 @@ Leonardo Luz, Diego & Bruno <br>
 
 ##### V2 Brancos Jogam
 ![tabuleiro_brancas_jogam](./prototipation/Branco.png)
+
 ##### V2 Pretos Jogam
 ![tabuleiro_pretas_jogam](./prototipation/Preto.png)
 
 #### Movimentação
 ##### Peão Branco
-![tabuleiro_movimentacao_peao_branco](./prototipation/PB move.png)
+![tabuleiro_movimentacao_peao_branco](./prototipation/PB%20move.png)
 
 ##### Peão Preto
-![tabuleiro_movimentacao_peao_preto](./prototipation/PP move.png)
+![tabuleiro_movimentacao_peao_preto](./prototipation/PP%20move.png)
 
 ##### Rei Qualquer
-![tabuleiro_movimentacao_rei_qualquer](./prototipation/King move.png)
+![tabuleiro_movimentacao_rei_qualquer](./prototipation/King%20move.png)
 
 ---
